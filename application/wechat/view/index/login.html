@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!--wx79c369f714143371-->
+<!--__ROOT__/index/txt/text.pdf-->
+<div onclick="onBridgeReady()">zhifu</div>
+<!--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79c369f714143371&redirect_uri=http%3A%2F%2Fcuga.the9edu.com&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect">phone</a>-->
+</body>
+<script>
+  function onBridgeReady(){
+//    console.log(Date.parse(new Date())/1000)
+    var data={
+      "appId":"wx17d8a5f7f8636621",     //公众号名称，由商户传入
+      "mch_id":"1517212151",     //商户号
+      "timeStamp":"1544002875",         //时间戳，自1970年以来的秒数
+      "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串
+      "package":"prepay_id=u802345jgfjsdfgsdg888",
+      "signType":"MD5",         //微信签名方式：
+      "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89", //微信签名
+      "total_fee":"88", //价格
+      "body":"当日企服-商品", //描述
+      "out_trade_no":"100000", //订单号
+      "spbill_create_ip":"101.132.148.33",
+    }
+    WeixinJSBridge.invoke(
+      'getBrandWCPayRequest',data,
+      function(res){
+        if(res.err_msg == "get_brand_wcpay_request:ok" ){
+          // 使用以上方式判断前端返回,微信团队郑重提示：
+          //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+        }
+      })
+  }
+</script>
+</html>
