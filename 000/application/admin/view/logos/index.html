@@ -1,0 +1,94 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">logo</h3>
+    </div>
+    <div class="panel-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+            <!--<div class="form-group">-->
+                <!--<label for="inputEmail3" class="col-sm-2 control-label">上传logo(90*60)</label>-->
+                <!--<div class="col-sm-10" id="dispathed">-->
+                    <!--<input type="file"  name="file_upload" id="file_upload" />-->
+                    <!--<div class="images">-->
+
+                        <!--<input type="hidden" value="{$logosData['pic']}" name="pic">-->
+                        <!--{if condition="$logosData['pic']!=1"}-->
+                        <!--<img src="/uploads/{$logosData['pic']}" width="90" style="background: black">-->
+                        <!--<a href="javascript:;" class="btn btn-danger col-sm-offset-1 delimg" img="{$logosData['pic']}">删除</a>-->
+                        <!--{/if}-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="公司名称" value="{$logosData.company}" name="company">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">短信通知手机号码</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="短信通知手机号码" value="{$logosData.message}" name="message">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">400</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="备案号" value="{$logosData.four}" name="four">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">地址</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="备案号" value="{$logosData.address}" name="address">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">电话</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="备案号" value="{$logosData.phone}" name="phone">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="备案号" value="{$logosData.emails}" name="emails">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">备案号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="备案号" value="{$logosData.beian}" name="beian">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">关于我们</label>
+                <div class="col-sm-10">
+                    <textarea name="about" id="editor" cols="90" rows="5">{$logosData.about}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary">提交保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+//    $('.dellogo').click(function () {
+//      var path=$(this).attr('img');
+//      $('.images').remove();
+//      $.post('{:url("admin/logos/delimg")}',{path:path},function (res) {
+//
+//      })
+//    });
+
+    var ue = UE.getEditor('editor',{
+      initialFrameHeight:300,
+      initialFrameWidth:800,
+    });
+</script>
+<script src="/admins/js/pic.js"></script>
+{/block}

@@ -1,0 +1,210 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">会员列表</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-inline" method="get">
+            <div class="form-group">
+                <label for="exampleInputEmail2">手机号</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="手机号" name="phone">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+    </div>
+
+    <!-- Modal 积分-->
+    <div class="modal fade" id="myModaljifen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">积分增加/减少</h4>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data" id="jifenform" class="form-horizontal" role="form" onsubmit="return jifen()">
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">理由</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmail1" required placeholder="理由"  name="can_content">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">积分数</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="inputEmail1" required placeholder="负数为减正数为加"  name="can_fen">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">提交保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 余额-->
+    <div class="modal fade" id="myModalmoney" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">余额增加/减少</h4>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data" id="moneyform" class="form-horizontal" role="form" onsubmit="return money()">
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">理由</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputEmail1" required placeholder="理由"  name="can_content">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">余额</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="inputEmail1" required placeholder="负数为减正数为加"  name="can_money">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">提交保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--<div class="panel-body">-->
+        <!--<a href="{:url('addbanner')}" class="btn btn-info">新增banner</a>-->
+    <!--</div>-->
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>手机</th>
+                <th>注册时间</th>
+                <th>是否绑定微信</th>
+                <th>支付宝账户</th>
+                <th>支付宝账号</th>
+                <th>积分</th>
+                <th>余额</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="$userData" id="vo"}
+            <tr>
+                <td>{$vo.user_id}</td>
+                <td>{$vo.phone}</td>
+                <td>{:date('Y-m-d H:i:s',$vo.create_time)}</td>
+                <td>{if condition="$vo.wechat"}是{else /}否{/if}</td>
+                <td>{if condition="$vo.apayname"}{$vo.apayname}{else /}无{/if}</td>
+                <td>{if condition="$vo.apay"}{$vo.apay}{else /}无{/if}</td>
+                <td>
+                    <div style="width: 100px;float: left">{$vo.jifen}</div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary jifenadd" userid="{$vo.user_id}" data-toggle="modal" data-target="#myModaljifen">
+                        +/-
+                    </button>
+                </td>
+                <td><div style="width: 100px;float: left">{$vo.money}</div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary jifenadd" userid="{$vo.user_id}" data-toggle="modal" data-target="#myModalmoney">
+                        +/-
+                    </button></td>
+                <td>
+                    {if condition="$vo.lv==0"}
+                    <a href="{:url('admin/user/edit',['user_id'=>$vo.user_id,'lv'=>1,'page'=>$Request.param.page])}" class="btn btn-primary">添加推广</a>
+                    {else /}
+                    <a href="{:url('admin/user/edit',['user_id'=>$vo.user_id,'lv'=>0,'page'=>$Request.param.page])}" class="btn btn-danger">取消推广</a>
+                    {/if}
+                    <a href="{:url('admin/user/jifenlist',['user_id'=>$vo.user_id])}" class="btn btn-info">积分流水</a>
+                    <a href="{:url('admin/user/moneylist',['user_id'=>$vo.user_id])}" class="btn btn-danger">余额流水</a>
+                    <!--<a href="javascript:;" class="btn btn-danger" urls="{:url('admin/user/del')}" data-toggle="modal" data-target="#myModal">删除</a>-->
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">{$userData|raw}</div>
+</div>
+
+<script>
+    var jifensta = '';
+    var userid = '';
+    $('.jifenadd').click(function () {
+      userid = $(this).attr('userid')
+    })
+    $('.jifenmiuns').click(function () {
+      userid = $(this).attr('userid')
+    })
+  function jifen() {
+    var data = $('#jifenform').serialize();
+    data+='&userid=' + userid
+    $.post("{:url('ajaxJifen')}",data,function (res) {
+      if (res == 1) {
+        location.reload();
+      } else {
+        alert(res)
+      }
+    },'json');
+    return false
+  }
+
+    function money() {
+      var data = $('#moneyform').serialize();
+      data+='&userid=' + userid
+      $.post("{:url('ajaxMoney')}",data,function (res) {
+        if (res == 1) {
+          location.reload();
+        } else {
+          alert(res)
+        }
+      },'json');
+      return false
+    }
+
+
+    var str=null;
+    $('.btn-danger').click(function () {
+        str=$(this).attr('urls');
+    });
+    function checkdel(){
+        location.href=str;
+    }
+
+
+    var oinputs=$('input[name=sort]');
+    var t;
+    oinputs.focus(function () {
+        t=$(this).val();
+    });
+    oinputs.blur(function () {
+        var This=$(this);
+        var id=parseInt(This.attr('id'),10);
+        var sort=parseInt(This.val(),10);
+        if (id&&sort>=0&&sort!=t){
+            $.post("{:url('ajaxEditSort')}",{id:id,sort:sort},function (res) {
+                if (res.valid==1){
+                    This.val(sort);
+                    alert(res.msg);
+                    location.reload();
+                }else {
+                    alert(res.msg);
+                }
+            },'json');
+        }else {
+            This.val(t)
+        }
+    });
+</script>
+{/block}

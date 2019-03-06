@@ -1,0 +1,39 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">参赛须知</h3>
+    </div>
+    <div class="panel-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">上传</label>
+                <div class="col-sm-10" id="dispathed">
+                    <input type="file"  name="file_upload" id="file_upload" />
+                    <div class="images" style="width: 400px;height:300px;overflow: hidden;">
+
+                        <input type="hidden" value="{$logosData['knowing']}" name="pic">
+                        {if condition="$logosData['knowing']!=1"}
+                        <img src="__ROOT__/uploads/{$logosData['knowing']}" width="2000">
+                        <a href="javascript:;" class="btn btn-danger col-sm-offset-1 dellogo">删除</a>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary">提交保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('.dellogo').click(function () {
+      $.post('{:url("admin/logos/delknowing")}',{},function (res) {
+            $('.images').remove();
+      })
+    });
+</script>
+<script src="__ROOT__/admins/js/pic_and_mess.js"></script>
+{/block}

@@ -1,0 +1,117 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">待收货列表</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-xs-4">
+            <form class="form-inline" method="get">
+                <div class="form-group">
+                    <label for="exampleInputEmail2">订单编号/商户编号</label>
+                    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="订单号" name="order_id">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+        <div class="col-xs-4">
+            <form class="form-inline" method="get">
+                <div class="form-group">
+                    <label for="exampleInputEmail2">手机号</label>
+                    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="手机号" name="phone">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+    </div>
+    <div class="panel-body" style="overflow: scroll">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>订单编号</th>
+                <th>商户编号</th>
+                <th>下单时间</th>
+                <th>付款金额</th>
+                <th>地址</th>
+                <th>联系方式</th>
+                <th>快递单号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="$data" id="vo"}
+            <tr>
+                <td>{$vo.orid}</td>
+                <td>{$vo.order_id}</td>
+                <td>{$vo.transaction_id}</td>
+                <td>{$vo.create_time}</td>
+                <td>{$vo.hadpay}</td>
+                <td>
+                    {:json_decode($vo.address_before,256)['province']}{:json_decode($vo.address_before,256)['city']}{:json_decode($vo.address_before,256)['area']}{$vo.address_after}
+                </td>
+                <td>{$vo.phone}</td>
+                <td>{$vo.code}</td>
+                <td>
+                    <a href="{:url('admin/order/beorder',['orid'=>$vo['orid']])}" class="btn btn-instagram">确认用户收货</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">{$data|raw}</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                确定删除么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="return checkdel()">确定删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  var str=null;
+  $('.btn-danger').click(function () {
+    str=$(this).attr('urls');
+  });
+  function checkdel(){
+    location.href=str;
+  }
+
+
+  var oinputs=$('input[name=sort]');
+  var t;
+  oinputs.focus(function () {
+    t=$(this).val();
+  });
+  oinputs.blur(function () {
+    var This=$(this);
+    var id=parseInt(This.attr('id'),10);
+    var sort=parseInt(This.val(),10);
+    if (id&&sort>=0&&sort!=t){
+      $.post("{:url('ajaxEditSort')}",{id:id,gsort:sort},function (res) {
+        if (res.valid==1){
+          This.val(sort);
+          alert(res.msg);
+          location.reload();
+        }else {
+          alert(res.msg);
+        }
+      },'json');
+    }else {
+      This.val(t)
+    }
+  });
+</script>
+{/block}

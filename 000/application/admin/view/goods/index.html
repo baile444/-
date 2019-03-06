@@ -1,0 +1,118 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">商品列表</h3>
+    </div>
+    <div class="panel-body">
+        <a href="{:url('admin/goods/addgoods')}" class="btn btn-info">新增商品</a>
+    </div>
+    <div class="panel-body">
+        <form class="form-inline" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail2">商品名称</label>
+                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="商品名称" name="gname">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+    </div>
+    <div class="panel-body" style="overflow: scroll">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>上传时间</th>
+                <th>更新时间</th>
+                <th>分类</th>
+                <th>快递</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="goodsData" id="vo"}
+            <tr>
+                <td>{$vo.gid}</td>
+                <td>{$vo.gname}</td>
+                <td>{:date('Y-m-d',$vo.create_time)}</td>
+                <td>{:date('Y-m-d',$vo.update_time)}</td>
+                <td>{$vo.cname}</td>
+                <td>{if condition="$vo.ed==0"}免{else /}{$vo.ed}{/if}</td>
+                <td><input type="text" id="{$vo.gid}" name="sort" value="{$vo.gsort}"></td>
+                <td>
+                    {if condition="$vo.re"}
+                    <a href="{:url('admin/goods/rececommend',['gid'=>$vo.gid,'page'=>$Request.param.page,'re'=>0])}" class="btn btn-default">取消推荐</a>
+                    {else /}
+                    <a href="{:url('admin/goods/rececommend',['gid'=>$vo.gid,'page'=>$Request.param.page,'re'=>1])}" class="btn btn-danger">设置推荐</a>
+                    {/if}
+                    <a href="{:url('admin/goods/pic',['gid'=>$vo.gid,'page'=>$Request.param.page])}" class="btn btn-instagram">商品图片</a>
+                    <a href="{:url('admin/goods/level',['gid'=>$vo.gid,'page'=>$Request.param.page])}" class="btn btn-info">规格库存</a>
+                    <a href="{:url('admin/goods/editgoods',['gid'=>$vo.gid,'page'=>$Request.param.page])}" class="btn btn-primary">编辑</a>
+                    {if condition="$vo.gsta"}
+                    <a href="{:url('admin/goods/rececommend',['gid'=>$vo.gid,'page'=>$Request.param.page,'gsta'=>0])}" class="btn btn-info">上架中</a>
+                    {else /}
+                    <a href="{:url('admin/goods/rececommend',['gid'=>$vo.gid,'page'=>$Request.param.page,'gsta'=>1])}" class="btn btn-danger">下架中</a>
+                    {/if}
+                    <a href="javascript:;" class="btn btn-danger" urls="{:url('admin/goods/delgoods',['id'=>$vo.gid,'page'=>$Request.param.page])}" data-toggle="modal" data-target="#myModal" onclick="attrcid()">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+        <div class="text-center">{$goodsData|raw}</div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                确定删除么？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="return checkdel()">确定删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  var str=null;
+  $('.btn-danger').click(function () {
+    str=$(this).attr('urls');
+  });
+  function checkdel(){
+    location.href=str;
+  }
+
+
+  var oinputs=$('input[name=sort]');
+  var t;
+  oinputs.focus(function () {
+    t=$(this).val();
+  });
+  oinputs.blur(function () {
+    var This=$(this);
+    var id=parseInt(This.attr('id'),10);
+    var sort=parseInt(This.val(),10);
+    if (id&&sort>=0&&sort!=t){
+      $.post("{:url('ajaxEditSort')}",{id:id,gsort:sort},function (res) {
+        if (res.valid==1){
+          This.val(sort);
+          alert(res.msg);
+          location.reload();
+        }else {
+          alert(res.msg);
+        }
+      },'json');
+    }else {
+      This.val(t)
+    }
+  });
+</script>
+{/block}

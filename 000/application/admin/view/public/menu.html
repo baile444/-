@@ -1,0 +1,188 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="header">订单管理</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>订单管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/order/index')}"><i class="fa fa-circle-o"></i>待发货订单</a></li>
+                    <li><a href="{:url('admin/order/wait')}"><i class="fa fa-circle-o"></i>待收货订单</a></li>
+                    <li><a href="{:url('admin/order/succ')}"><i class="fa fa-circle-o"></i>成功订单</a></li>
+                    <li><a href="{:url('admin/order/recommend')}"><i class="fa fa-circle-o"></i>待退款</a></li>
+                    <li><a href="{:url('admin/order/hadrecommend')}"><i class="fa fa-circle-o"></i>已处理退款订单</a></li>
+                </ul>
+            </li>
+
+            <li class="header">展示页面信息管理</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>首页管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/banner/index')}"><i class="fa fa-circle-o"></i>banner</a></li>
+                    <li><a href="{:url('admin/servers/index')}"><i class="fa fa-circle-o"></i>服务优势</a></li>
+                    <li><a href="{:url('admin/firendship/index')}"><i class="fa fa-circle-o"></i>友情链接</a></li>
+                    <li><a href="{:url('admin/logos/index',['id'=>1])}"><i class="fa fa-circle-o"></i>基本信息</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>服务商信息管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/category/index')}"><i class="fa fa-circle-o"></i>分类列表</a></li>
+                    <!--<li><a href="{:url('admin/shops/index')}"><i class="fa fa-circle-o"></i>服务商</a></li>-->
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>新闻管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/newscate/index')}"><i class="fa fa-circle-o"></i>分类列表</a></li>
+                    <li><a href="{:url('admin/news/index')}"><i class="fa fa-circle-o"></i>新闻列表</a></li>
+                </ul>
+            </li>
+
+            <li class="header">商品管理</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>pc商城轮播图</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/cate/recommend',['cid'=>9999])}"><i class="fa fa-circle-o"></i>列表</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>分类管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/cate/index')}"><i class="fa fa-circle-o"></i>分类列表</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>商品管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/goods/index')}"><i class="fa fa-circle-o"></i>商品列表</a></li>
+                    <!--<li><a href="{:url('admin/recommend/index')}"><i class="fa fa-circle-o"></i>商品广告设置</a></li>-->
+                </ul>
+            </li>
+
+            <li class="header">会员管理</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>留言管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/smess/index')}"><i class="fa fa-circle-o"></i>商户留言列表</a></li>
+                    <li><a href="{:url('admin/smess/bmess')}"><i class="fa fa-circle-o"></i>平台留言</a></li>
+                    <li><a href="{:url('admin/messages/index')}"><i class="fa fa-circle-o"></i>联系我们留言</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>会员管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/user/index')}"><i class="fa fa-circle-o"></i>会员列表</a></li>
+                    <li><a href="{:url('admin/user/remoney')}"><i class="fa fa-circle-o"></i>提现申请</a></li>
+                    <li><a href="{:url('admin/user/hadremoney')}"><i class="fa fa-circle-o"></i>已提现列表</a></li>
+                </ul>
+            </li>
+
+            <li class="header">微信管理</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>菜单栏</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/wechat/index')}"><i class="fa fa-circle-o"></i>菜单</a></li>
+                    <li><a href="{:url('admin/Wechatmess/index')}"><i class="fa fa-circle-o"></i>自定义消息</a></li>
+                </ul>
+            </li>
+
+            <li class="header">安全管理</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>密码管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/index/editpass')}"><i class="fa fa-circle-o"></i>修改密码</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>积分管理</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{:url('admin/jifen/index')}"><i class="fa fa-circle-o"></i>积分兑换比例</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</aside>
+<script>
+    $('.treeview').click(function () {
+      var menu_num=$(this).index();
+      localStorage.setItem('menu_num',menu_num);
+    });
+    var menu_num=localStorage.getItem('menu_num');
+    if (menu_num>0){
+      $('.sidebar-menu>li').eq(menu_num).addClass('active');
+      $('.treeview').find('.treeview-menu').addClass('menu-open');
+    }
+</script>

@@ -1,0 +1,50 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">大赛时间页</h3>
+    </div>
+    <div class="panel-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">上传背景图</label>
+                <div class="col-sm-10" id="dispathed">
+                    <input type="file"  name="file_upload" id="file_upload" />
+                    <div class="images">
+                        <input type="hidden" value="{$logosData['third_img']}" name="pic">
+                        {if condition="$logosData['third_img']!=1"}
+                        <img src="__ROOT__/uploads/{$logosData['third_img']}" width="414" height="400">
+                        <a href="javascript:;" class="btn btn-danger col-sm-offset-1 dellogo">删除</a>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">5个时间阶段</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="5个时间阶段" value="{$logosData.cate}" name="cate">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">5个时间</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="5个时间" value="{$logosData.times}" name="times">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button type="submit" class="btn btn-primary">提交保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('.dellogo').click(function () {
+      $.post('{:url("admin/logos/third_img")}',{},function (res) {
+            $('.images').remove();
+      })
+    });
+</script>
+<script src="__ROOT__/admins/js/pic_and_mess.js"></script>
+{/block}

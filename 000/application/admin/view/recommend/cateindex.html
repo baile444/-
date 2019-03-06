@@ -1,0 +1,75 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">推荐商品列表</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>商品</th>
+                <th>推荐图片 (存在图片的时候加入顶部轮播图，下列表)</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="$reData" id="vo"}
+            <tr>
+                <td>{$vo.rid}</td>
+                <td>{$vo.gname}</td>
+                <td>{if condition="$vo.pic"}<img src="http://image.qyfw24.com/{$vo.pic}" width="300" alt="">{else /}未上传{/if}</td>
+                <td><input type="text" id="{$vo.rid}" name="sort" value="{$vo.rsort}"></td>
+                <td>
+                    {if condition="$vo.sta"}
+                    <a href="{:url('admin/recommend/start',['rid'=>$vo.rid,'sta'=>0])}" class="btn btn-danger">去关闭</a>
+                    {else /}
+                    <a href="{:url('admin/recommend/start',['rid'=>$vo.rid,'sta'=>1])}" class="btn btn-info">去开启</a>
+                    {/if}
+                    <a href="{:url('admin/recommend/edit',['rid'=>$vo.rid])}" class="btn btn-primary">编辑</a>
+                    <a href="javascript:;" class="btn btn-danger" urls="{:url('admin/recommend/del',['id'=>$vo.rid])}" data-toggle="modal" data-target="#myModal">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var str=null;
+    $('.btn-danger').click(function () {
+        str=$(this).attr('urls');
+    });
+    function checkdel(){
+        location.href=str;
+    }
+
+
+    var oinputs=$('input[name=sort]');
+    var t;
+    oinputs.focus(function () {
+        t=$(this).val();
+    });
+    oinputs.blur(function () {
+        var This=$(this);
+        var id=parseInt(This.attr('id'),10);
+        var sort=parseInt(This.val(),10);
+        if (id&&sort>=0&&sort!=t){
+            $.post("{:url('ajaxEditSort')}",{id:id,rsort:sort},function (res) {
+                if (res.valid==1){
+                    This.val(sort);
+                    alert(res.msg);
+                    location.reload();
+                }else {
+                    alert(res.msg);
+                }
+            },'json');
+        }else {
+            This.val(t)
+        }
+    });
+</script>
+{/block}

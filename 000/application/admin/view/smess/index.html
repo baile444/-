@@ -1,0 +1,71 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">分类留言列表</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>电话</th>
+                <th>时间</th>
+                <th>需求</th>
+                <th>备注</th>
+                <th>备忘录</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="$smessdata" id="vo"}
+            <tr>
+                <td>{$vo.smid}</td>
+                <td>{$vo.phone}</td>
+                <td>{$vo.create_time}</td>
+                <td>{$vo.cid}</td>
+                <td>{if condition="$vo.content"}{$vo.content}{else /}无{/if}</td>
+                <td>
+                    <textarea name="beiwang" smid="{$vo.smid}" id="beiwang" cols="30" rows="3">{$vo.beiwang}</textarea>
+                </td>
+                <td>
+                    <a href="javascript:;" class="btn btn-danger" urls="{:url('del',['id'=>$vo.smid])}" data-toggle="modal" data-target="#myModal" onclick="attrcid()">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var str=null;
+    $('.btn-danger').click(function () {
+        str=$(this).attr('urls');
+    });
+    function checkdel(){
+        location.href=str;
+    }
+
+
+    var oinputs=$('#beiwang');
+    var t;
+    oinputs.focus(function () {
+        t=$(this).val();
+    });
+    oinputs.blur(function () {
+        var This=$(this);
+        var text=$(this).val();
+        var id=$(this).attr('smid')
+        if (t!=text){
+            $.post("{:url('ajaxEditBeiwang')}",{smid:id,beiwang:text,type:1},function (res) {
+                if (res==1){
+                    window.location.reload();
+                }else {
+                    alert(res.msg);
+                }
+            },'json');
+        }
+    });
+</script>
+{/block}

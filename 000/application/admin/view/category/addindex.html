@@ -1,0 +1,85 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">服务商分类新增</h3>
+    </div>
+    <div class="panel-body">
+        <a href="{:url('index')}" class="btn btn-info">返回分类列表</a>
+    </div>
+    <div class="panel-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">分类名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="分类名称" name="cname">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">分类标签</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" required placeholder="分类#标签" name="clevel">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">简介</label>
+                <div class="col-sm-10">
+                    <textarea name="cintro" id="" cols="60" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">上传图片(82*82)</label>
+                <div class="col-sm-10" id="dispathed">
+                    <input type="file"  name="file_upload" id="file_upload" pathname="cateicon"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">上传图片(270*140)</label>
+                <div class="col-sm-10" id="dispatheds">
+                    <div class="images">
+                        <input type="file"  name="file_upload" id="file_uploads" pathname="catepic"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">上传图片手机端(100*10)</label>
+                <div class="col-sm-10" id="dispathedss">
+                    <div class="images">
+                        <input type="file"  name="file_upload" id="file_uploadss" pathname="catemoicon"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">服务内容pc</label>
+                <div class="col-sm-10">
+                    <textarea name="content" id="editor" cols="90" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">服务内容手机</label>
+                <div class="col-sm-10">
+                    <textarea name="content" id="editors" cols="90" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    <button name="mocontent" type="submit" class="btn btn-primary">提交保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/admins/js/pic.js"></script>
+<script src="/admins/js/addpic.js"></script>
+<script src="/admins/js/maddpic.js"></script>
+<script>
+  var ue = UE.getEditor('editor',{
+    initialFrameHeight:300,
+    initialFrameWidth:800,
+  });
+  var ue1 = UE.getEditor('editors',{
+    initialFrameHeight:300,
+    initialFrameWidth:800,
+  });
+</script>
+{/block}

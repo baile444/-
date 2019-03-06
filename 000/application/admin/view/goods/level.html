@@ -1,0 +1,78 @@
+{extend name='public/master' /}
+{block name='content'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{$name}--规格库存列表</h3>
+    </div>
+    <div class="panel-body">
+        <a href="{:url('addlevel',['gid'=>$Request.param.gid,'page'=>$Request.param.page])}" class="btn btn-info">新增</a>
+        <a href="{:url('index',['gid'=>$Request.param.gid,'page'=>$Request.param.page])}" class="btn btn-info">返回</a>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>规格</th>
+                <th>价格</th>
+                <th>积分</th>
+                <th>库存</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="$levelData" id="vo"}
+            <tr>
+                <td>{$vo.lid}</td>
+                <td>{$vo.lname}</td>
+                <td>{$vo.lprice}</td>
+                <td>{$vo.fen}</td>
+                <td>{$vo.inventory}</td>
+                <td><input type="text" name="sort" id="{$vo.lid}" value="{$vo.lsort}"></td>
+                <td>
+                    <a href="{:url('editlevel',['lid'=>$vo.lid,'gid'=>$Request.param.gid,'page'=>$Request.param.page])}" class="btn btn-primary">编辑</a>
+                    <a href="javascript:;" class="btn btn-danger" urls="{:url('dellevel',['id'=>$vo.lid,'gid'=>$Request.param.gid,'page'=>$Request.param.page])}" data-toggle="modal" data-target="#myModal" onclick="attrcid()">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var str=null;
+    $('.btn-danger').click(function () {
+        str=$(this).attr('urls');
+    });
+    function checkdel(){
+        location.href=str;
+    }
+
+
+    var oinputs=$('input[name=sort]');
+    var t;
+    oinputs.focus(function () {
+        t=$(this).val();
+    });
+    oinputs.blur(function () {
+        var This=$(this);
+        var id=parseInt(This.attr('id'),10);
+        var sort=parseInt(This.val(),10);
+        if (id&&sort>=0&&sort!=t){
+            $.post("{:url('ajaxEditSort')}",{id:id,csort:sort},function (res) {
+                if (res.valid==1){
+                    This.val(sort);
+                    alert(res.msg);
+                    location.reload();
+                }else {
+                    alert(res.msg);
+                }
+            },'json');
+        }else {
+            This.val(t)
+        }
+    });
+</script>
+{/block}

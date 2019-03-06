@@ -1,0 +1,275 @@
+{extend name='public/master' /}
+{block name='content'}
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .mobile {
+        border: 1px solid #cccccc;
+        height: 600px;
+        display: flex;
+    }
+    .mobile dl {
+        padding: 0px;
+        margin: 0;
+        display: flex;
+        flex-direction: column-reverse;
+        flex: 1;
+    }
+    .mobile dl dt {
+        background: #cccccc;
+        border: 1px solid #f3f3f3;
+        text-align: center;
+        height: 30px;
+        line-height: 2em;
+    }
+    .mobile dl dd {
+        display: flex;
+        flex-direction: column;
+    }
+    .mobile dl dd a {
+        text-align: center;
+        padding: 6px;
+        border: 1px solid #f3f3f3;
+    }
+    .topMenu,
+    .subMenu {
+        position: relative;
+    }
+    .topMenu .top,
+    .subMenu .top,
+    .topMenu .sub,
+    .subMenu .sub {
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        cursor: pointer;
+        /*display: none;*/
+    }
+    /*.topMenu:hover .top,*/
+    /*.subMenu:hover .sub {*/
+    /*display: block;*/
+    /*}*/
+
+</style>
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/vue/2.0.0/vue.min.js"></script>
+<!--百度搜索bootscdn，在cdn搜多框输入underscore-->
+<script src="https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js"></script>
+<form action="" method="POST" class="form-horizontal" role="form">
+    <div class="container" id="box">
+        <div class="row">
+            <!--手机预览-->
+            <div class="col-xs-4">
+                <div class="mobile">
+                    <dl v-for="v in button">
+                        <dt>{{v.name}}</dt>
+                        <dd v-for="vv in v.sub_button">
+                            <a href="">{{vv.name}}</a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <!--编辑页面-->
+            <div class="col-xs-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">编辑</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!--一级菜单开始-->
+                        <div class="panel panel-default topMenu" v-for="v in button">
+                            <i class="fa fa-times-circle fa-2x top" @click="delTopMenu(v)"></i>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">菜单名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" v-model.trim.lazy="v.name">
+                                    </div>
+                                </div>
+                                <div class="form-group" v-if="v.type">
+                                    <label for="" class="col-sm-2 control-label">菜单类型</label>
+                                    <div class="col-sm-10">
+                                        <label class="radio-inline">
+                                            <input type="radio" v-model="v.type" value="click"> 发送消息
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" v-model="v.type" value="view"> 跳转地址
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-if="v.type=='click'">
+                                    <label for="" class="col-sm-2 control-label">发送消息</label>
+                                    <div class="col-sm-10">
+                                        <select v-model="v.key" class="form-control">
+                                            <option v-for="m in mess" v-bind="m">{{m}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" v-if="v.type=='view'">
+                                    <label for="" class="col-sm-2 control-label">跳转地址</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" v-model.trim.lazy="v.url">
+                                    </div>
+                                </div>
+
+                                <!--二级菜单开始-->
+                                <div class="panel panel-default subMenu" v-for="vv in v.sub_button">
+                                    <i class="fa fa-times-circle fa-2x sub" @click="delSubMenu(v,vv)"></i>
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 control-label">菜单名称</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" v-model="vv.name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">菜单类型</label>
+                                        <div class="col-sm-10">
+                                            <label class="radio-inline">
+                                                <input type="radio" v-model="vv.type" value="click"> 发送消息
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" v-model="vv.type" value="view"> 跳转地址
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" v-if="vv.type=='click'">
+                                        <label for="" class="col-sm-2 control-label">发送消息</label>
+                                        <div class="col-sm-10">
+                                            <select v-model="vv.key" class="form-control">
+                                                <option v-for="m in mess" v-bind="m">{{m}}</option>
+                                                <!--<option v-for="m in mess" value="{{m}}"></option>-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" v-if="vv.type=='view'">
+                                        <label for="" class="col-sm-2 control-label">跳转地址</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" v-model="vv.url" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-info" type="button" @click="addSubMenu(v)">添加二级菜单</button>
+                                <!--二级菜单结束-->
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" type="button" @click="addTopMenu">添加一级菜单</button>
+                        <!--一级菜单结束-->
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button type="button" class="btn btn-primary col-sm-12" @click="submess">提交保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+  new Vue({
+    el: '#box',
+    data:{
+      button:[
+
+      ],
+      mess:[],
+    },
+    beforeCreate:function () {
+      var This=this;
+      $.post("{:url('admin/wechat/getorder')}",{},function (res) {
+        This.button=JSON.parse(res);
+      });
+      $.post("{:url('admin/wechat/getverson')}",{},function (res) {
+        This.mess=res;
+      });
+    },
+    created:function () {
+      var This=this;
+
+
+    },
+    methods:{
+      //添加一级菜单
+      addTopMenu(){
+        var con = {name:'',sub_button:[],type:'1',url:'',key:''};
+        if(this.button.length == 3){
+          alert('一级菜单最多三个');
+          return false;
+        }else{
+          this.button.push(con);
+        }
+      },
+      //添加二级菜单
+      addSubMenu(v){
+        var con = {type:'',name:'',url:'',key:''};
+        if(v.sub_button.length == 5){
+          alert('二级级菜单最多五个');
+          return false;
+        }else{
+          v.type="";
+          v.sub_button.push(con);
+        }
+      },
+      //删除一级菜单
+      delTopMenu(v){
+        this.button = _.without(this.button,v);
+      },
+      //删除二级菜单
+      delSubMenu(v,vv){
+        if(v.sub_button.length == 1){
+          v.type=1;
+        }
+        v.sub_button = _.without(v.sub_button,vv);
+      },
+      delonetype(v){
+        v.type="";
+      },
+      submess(){
+        var This=this;
+//        var data=JSON.stringify(this.button);
+        var data=[];
+        for (var i=0;i<this.button.length;i++){
+          var obj={};
+          if (this.button[i].sub_button==false){
+            obj.type=this.button[i]['type'];
+            obj.name=this.button[i]['name'];
+            if (this.button[i]['type']=="click"){
+              obj.key=this.button[i]['key'];
+            }else if(this.button[i]['type']=="view") {
+              obj.url=this.button[i]['url'];
+            }else {
+              alert('请正确输入顶级菜单信息');return false;
+            }
+          }else {
+            obj.name=this.button[i]['name'];
+            obj.sub_button=[];
+            for (var j=0;j<this.button[i]['sub_button'].length;j++){
+              obj.sub_button[j]={};
+              obj.sub_button[j].type=this.button[i]['sub_button'][j]['type'];
+              obj.sub_button[j].name=this.button[i]['sub_button'][j]['name'];
+              if (this.button[i]['sub_button'][j]['type']=='click'){
+                obj.sub_button[j].key=this.button[i]['sub_button'][j]['key'];
+              }else if(this.button[i]['sub_button'][j]['type']=='view'){
+                obj.sub_button[j].url=this.button[i]['sub_button'][j]['url'];
+              }else {
+                alert('请正确输入二级菜单信息');return false;
+              }
+            }
+          }
+          data.push(obj);
+        }
+        var oldData=JSON.stringify(this.button);
+        $.post("{:url('admin/wechat/setorder')}",{button:data,oldbutton:oldData},function (res) {
+          if (res==1){
+            alert('成功');
+          }else {
+            alert('失败');
+          }
+        });
+      }
+    }
+  })
+</script>
+{/block}
